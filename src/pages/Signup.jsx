@@ -91,7 +91,7 @@ const Signup = () => {
         </Button>
 
         <Typography sx={{ mt: 2, fontSize: "14px" }}>
-          Already have an account?{" "}
+          No account yet?{" "}
           <Link component="button" variant="body2" onClick={() => navigate("/login")}>
             Login
           </Link>
