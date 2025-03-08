@@ -30,8 +30,9 @@ const Shop = () => {
         ))}
       </Grid>
     </Container>
-    
+   
   );
 };
+
 
 export default Shop;

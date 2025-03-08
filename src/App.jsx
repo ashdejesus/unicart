@@ -8,7 +8,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 
+
 const theme = createTheme();
+
 
 function App() {
   return (
@@ -31,5 +33,6 @@ function App() {
     </ThemeProvider>
   );
 }
+
 
 export default App;

@@ -11,26 +11,33 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
 
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
 
+
     return () => unsubscribe();
   }, []);
+
 
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/login");
   };
+
+
 
 
   return (
@@ -39,6 +46,7 @@ const Navbar = () => {
       <Box sx={{ backgroundColor: "#000", color: "#fff", textAlign: "center", py: 1 }}>
         <Typography variant="body2">🔥 Limited-time offers! Grab the best deals now! 🔥</Typography>
       </Box>
+
 
       <AppBar position="static" sx={{ backgroundColor: "#fff", padding: "8px 16px", boxShadow: "none" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -73,8 +81,10 @@ const Navbar = () => {
             <InputBase placeholder="Search products..." sx={{ marginLeft: "8px", flex: 1, color: "#000" }} />
           </Box>
 
+
           {/* Right Side: Dashboard + Avatar / Login */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
+
 
             {user ? (
               <>
@@ -116,4 +126,7 @@ const Navbar = () => {
   );
 };
 
+
 export default Navbar;
+
+
