@@ -3,11 +3,10 @@ import { AppBar, Toolbar, Typography, InputBase, Avatar, Menu, MenuItem, Button,
 import SearchIcon from "@mui/icons-material/Search";
 import { auth } from "../firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
 
@@ -29,6 +28,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
+    setAnchorEl(null);
     navigate("/login");
   };
 
@@ -40,24 +40,21 @@ const Navbar = () => {
       </Box>
 
       <AppBar position="static" sx={{ backgroundColor: "#fff", padding: "8px 16px", boxShadow: "none" }}>
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          {/* Left Side: Logo + Shop/Home Toggle */}
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography variant="h6" sx={{ fontWeight: "bold", color: "#000", cursor: "pointer", mr: 2 }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* Left Side: Logo + Shop Button */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "bold", color: "#000", cursor: "pointer" }}
+            >
               unicart
             </Typography>
             <Button
               sx={{
                 color: "#000",
                 fontWeight: "bold",
-                "&:hover": {
-                  backgroundColor: "#E5E4E4",
-                },
-                "&:focus, &:active": {
-                  outline: "none",
-                  boxShadow: "none",
-                  borderColor: "transparent",
-                },
+                "&:hover": { backgroundColor: "#E5E4E4" },
+                "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "transparent" },
               }}
               onClick={() => navigate("/Shop")}
             >
@@ -80,7 +77,7 @@ const Navbar = () => {
             <InputBase placeholder="Search products..." sx={{ marginLeft: "8px", flex: 1, color: "#000" }} />
           </Box>
 
-          {/* Right Side: Dashboard + Avatar / Login */}
+          {/* Right Side: Avatar / Login */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {user ? (
               <>
@@ -90,7 +87,21 @@ const Navbar = () => {
                 >
                   {user.displayName ? user.displayName.charAt(0).toUpperCase() : "U"}
                 </Avatar>
-                <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                
+                {/* Fix: Correctly anchor the logout menu */}
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                >
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </>
