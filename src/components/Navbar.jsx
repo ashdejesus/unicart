@@ -4,10 +4,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import { auth } from "../firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { useNavigate, useLocation } from "react-router-dom";
-<<<<<<< HEAD
-
-=======
->>>>>>> ed3ad7b8ecc18dfcb20f3691833fa5500de30c40
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -42,11 +38,8 @@ const Navbar = () => {
   };
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ed3ad7b8ecc18dfcb20f3691833fa5500de30c40
   return (
     <>
       {/* Promotional Banner */}
@@ -72,10 +65,6 @@ const Navbar = () => {
               shop
             </Button>
           </Box>
-<<<<<<< HEAD
-
-=======
->>>>>>> ed3ad7b8ecc18dfcb20f3691833fa5500de30c40
 
           {/* Search Bar */}
           <Box
@@ -92,17 +81,11 @@ const Navbar = () => {
             <InputBase placeholder="Search products..." sx={{ marginLeft: "8px", flex: 1, color: "#000" }} />
           </Box>
 
-<<<<<<< HEAD
 
           {/* Right Side: Dashboard + Avatar / Login */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
 
 
-=======
-          {/* Right Side: Dashboard + Avatar / Login */}
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-
->>>>>>> ed3ad7b8ecc18dfcb20f3691833fa5500de30c40
             {user ? (
               <>
                 <Avatar

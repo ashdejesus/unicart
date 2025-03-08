@@ -3,17 +3,9 @@ import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Container, Grid, Card, CardContent, Typography } from "@mui/material";
 
-<<<<<<< HEAD
-
 const Shop = () => {
   const [products, setProducts] = useState([]);
 
-
-=======
-const Shop = () => {
-  const [products, setProducts] = useState([]);
-
->>>>>>> ed3ad7b8ecc18dfcb20f3691833fa5500de30c40
   useEffect(() => {
     const fetchProducts = async () => {
       const querySnapshot = await getDocs(collection(db, "products"));
@@ -22,10 +14,6 @@ const Shop = () => {
     fetchProducts();
   }, []);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ed3ad7b8ecc18dfcb20f3691833fa5500de30c40
   return (
     <Container>
       <Typography variant="h4" sx={{ my: 4 }}>This Is Shop</Typography>
@@ -42,16 +30,9 @@ const Shop = () => {
         ))}
       </Grid>
     </Container>
-<<<<<<< HEAD
    
   );
 };
 
 
-=======
-    
-  );
-};
-
->>>>>>> ed3ad7b8ecc18dfcb20f3691833fa5500de30c40
 export default Shop;
