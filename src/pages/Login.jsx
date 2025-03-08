@@ -40,8 +40,23 @@ const Login = () => {
         <TextField fullWidth label="Email" margin="normal" onChange={(e) => setEmail(e.target.value)} />
         <TextField fullWidth label="Password" type="password" margin="normal" onChange={(e) => setPassword(e.target.value)} />
 
-        {/* Login Button */}
-        <Button fullWidth variant="contained" sx={{ backgroundColor: "#000", color: "#fff", mt: 2 }} onClick={handleLogin}>
+        {/* Updated Login Button with Hover Effect */}
+        <Button
+          fullWidth
+          variant="contained"
+          sx={{
+            backgroundColor: "#000",
+            color: "#fff",
+            mt: 2,
+            "&:hover": {
+              backgroundColor: "#676667", // Change to gray on hover
+            },
+            "&:focus, &:active": {
+              backgroundColor: "#676667", // Keep the hover color when clicked
+            },
+          }}
+          onClick={handleLogin}
+        >
           Login
         </Button>
 
@@ -52,18 +67,18 @@ const Login = () => {
           <Box sx={{ flex: 1, height: "1px", bgcolor: "grey.400" }} />
         </Box>
 
-                {/* Google Login Button */}
-                <Button
+        {/* Google Login Button */}
+        <Button
           fullWidth
           variant="outlined"
           sx={{
             backgroundColor: "white",
             color: "black",
             mt: 2,
-            borderColor: "black", // Outline color set to black
+            borderColor: "#c0c1c0", // Default border color
             "&:hover": {
-              borderColor: "#E5E4E4", // Keep outline black on hover
-              backgroundColor: "#E5E4E4", // Hover background color
+              borderColor: "#E5E4E4",
+              backgroundColor: "#E5E4E4",
             },
           }}
           onClick={handleGoogleLogin}

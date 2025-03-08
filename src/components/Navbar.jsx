@@ -90,11 +90,24 @@ const Navbar = () => {
               </>
             ) : (
               <Button
-                sx={{ marginLeft: "16px", color: "#000", border: "1px solid #000" }}
+                sx={{
+                  marginLeft: "16px",
+                  color: "black",
+                  border: "1px solid #000", // Default border color (gray)
+                  "&:hover": {
+                    borderColor: "#E5E4E4",
+                    backgroundColor: "#E5E4E4",
+                  },
+                  "&:focus, &:active": {
+                    borderColor: "#E5E4E4",
+                    backgroundColor: "#E5E4E4",
+                  },
+                }}
                 onClick={() => navigate("/login")}
               >
                 Login
               </Button>
+
             )}
           </Box>
         </Toolbar>
