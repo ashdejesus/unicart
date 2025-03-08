@@ -52,7 +52,9 @@ const Login = () => {
               backgroundColor: "#676667", // Change to gray on hover
             },
             "&:focus, &:active": {
-              backgroundColor: "#676667", // Keep the hover color when clicked
+              outline: "none",
+              boxShadow: "none", // Remove focus ring
+              backgroundColor: "#676667", // Keep hover color when clicked
             },
           }}
           onClick={handleLogin}
@@ -79,6 +81,11 @@ const Login = () => {
             "&:hover": {
               borderColor: "#E5E4E4",
               backgroundColor: "#E5E4E4",
+            },
+            "&:focus, &:active": {
+              outline: "none",
+              boxShadow: "none", // Remove focus ring
+              borderColor: "#c0c1c0", // Keep border color unchanged
             },
           }}
           onClick={handleGoogleLogin}

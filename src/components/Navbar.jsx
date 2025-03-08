@@ -11,34 +11,26 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
 
-
     return () => unsubscribe();
   }, []);
-
 
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/login");
   };
-
-
-
 
   return (
     <>
@@ -47,19 +39,26 @@ const Navbar = () => {
         <Typography variant="body2">🔥 Limited-time offers! Grab the best deals now! 🔥</Typography>
       </Box>
 
-
       <AppBar position="static" sx={{ backgroundColor: "#fff", padding: "8px 16px", boxShadow: "none" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           {/* Left Side: Logo + Shop/Home Toggle */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: "bold", color: "#000", cursor: "pointer", mr: 2 }}
-            >
+            <Typography variant="h6" sx={{ fontWeight: "bold", color: "#000", cursor: "pointer", mr: 2 }}>
               unicart
             </Typography>
             <Button
-              sx={{ color: "#000", fontWeight: "bold" }}
+              sx={{
+                color: "#000",
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "#E5E4E4",
+                },
+                "&:focus, &:active": {
+                  outline: "none",
+                  boxShadow: "none",
+                  borderColor: "transparent",
+                },
+              }}
               onClick={() => navigate("/Shop")}
             >
               shop
@@ -81,11 +80,8 @@ const Navbar = () => {
             <InputBase placeholder="Search products..." sx={{ marginLeft: "8px", flex: 1, color: "#000" }} />
           </Box>
 
-
           {/* Right Side: Dashboard + Avatar / Login */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
-
-
             {user ? (
               <>
                 <Avatar
@@ -103,21 +99,21 @@ const Navbar = () => {
                 sx={{
                   marginLeft: "16px",
                   color: "black",
-                  border: "1px solid #000", // Default border color (gray)
+                  border: "1px solid #c0c1c0",
                   "&:hover": {
                     borderColor: "#E5E4E4",
                     backgroundColor: "#E5E4E4",
                   },
                   "&:focus, &:active": {
-                    borderColor: "#E5E4E4",
-                    backgroundColor: "#E5E4E4",
+                    outline: "none",
+                    boxShadow: "none",
+                    borderColor: "#c0c1c0",
                   },
                 }}
                 onClick={() => navigate("/login")}
               >
                 Login
               </Button>
-
             )}
           </Box>
         </Toolbar>
@@ -126,7 +122,4 @@ const Navbar = () => {
   );
 };
 
-
 export default Navbar;
-
-

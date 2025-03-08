@@ -21,8 +21,8 @@ function App() {
         <Box sx={{ display: "flex", flexDirection: "column", height: "100vh", width: "100vw" }}>
           <Container maxWidth={false} sx={{ flexGrow: 1 }}>
             <Routes>
-            <Route path="/" element={<Dashboard />} />  {/* Dashboard route corrected */}
-              <Route path="/shop" element={<Shop />} />  {/* Home route corrected */}
+            <Route path="/" element={<Dashboard />} />  
+              <Route path="/shop" element={<Shop />} />  
              
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
