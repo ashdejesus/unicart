@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, InputBase, Avatar, Menu, MenuItem, Button, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, InputBase, Avatar, Menu, MenuItem, Button, Box, Divider } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { auth } from "../firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
@@ -46,17 +46,17 @@ const Navbar = () => {
             <Typography
               variant="h6"
               sx={{ fontWeight: "bold", color: "#000", cursor: "pointer" }}
+              onClick={() => navigate("/dashboard")}
             >
               unicart
             </Typography>
             <Button
               sx={{
                 color: "#000",
-                fontWeight: "bold",
                 "&:hover": { backgroundColor: "#E5E4E4" },
                 "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "transparent" },
               }}
-              onClick={() => navigate("/Shop")}
+              onClick={() => navigate("/shop")}
             >
               shop
             </Button>
@@ -88,7 +88,6 @@ const Navbar = () => {
                   {user.displayName ? user.displayName.charAt(0).toUpperCase() : "U"}
                 </Avatar>
                 
-                {/* Fix: Correctly anchor the logout menu */}
                 <Menu
                   anchorEl={anchorEl}
                   open={Boolean(anchorEl)}
@@ -128,6 +127,8 @@ const Navbar = () => {
             )}
           </Box>
         </Toolbar>
+        {/* More Visible Line Break at the Bottom of Navbar */}
+        <Divider sx={{ width: "100vw", borderBottomWidth: 1, backgroundColor: "#000" }} />
       </AppBar>
     </>
   );
