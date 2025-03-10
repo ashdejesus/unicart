@@ -1,19 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, Box } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Navbar from "./components/Navbar";
+ import Navbar from "./components/Navbar";
 import Shop from "./pages/Shop";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Footer from "./components/Footer";
 
-const theme = createTheme();
-
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
       <Router>
         <Navbar />
@@ -30,7 +27,7 @@ function App() {
           </Box>
         </Box>
       </Router>
-    </ThemeProvider>
+    </>
   );
 }
 

@@ -78,7 +78,7 @@ const Dashboard = () => {
       </Box>
 
       {/* Categories Section */}
-      <Box sx={{ textAlign: "center", py: 5, backgroundColor: "#ffffff" }}>
+      <Box sx={{ textAlign: "center", py: 5, backgroundColor: "#eff2f6" }}>
         <Typography variant="h3" sx={{ fontWeight: "bold", mb: 1 }}>
           Categories
         </Typography>
@@ -123,7 +123,7 @@ const Dashboard = () => {
       </Box>
 
       {/* Our Products Section */}
-      <Box sx={{ textAlign: "center", py: 5, backgroundColor: "#ffffff" }}>
+      <Box sx={{ textAlign: "center", py: 5, backgroundColor: "#eff2f6" }}>
         <Typography variant="h3" sx={{ fontWeight: "bold", mb: 2 }}>
           Our Products
         </Typography>

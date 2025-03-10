@@ -8,7 +8,7 @@ const Footer = () => {
       <Divider sx={{ my: 5, backgroundColor: "#ddd" }} />
 
       {/* Footer */}
-      <Box sx={{ width: "100vw", backgroundColor: "#ffffff", py: 10, px: 3 }}>
+      <Box sx={{ width: "100vw", backgroundColor: "#eff2f6", py: 10, px: 3 }}>
         <Grid container spacing={4} alignItems="center">
           {/* Left Side: Newsletter Signup Form */}
           <Grid item xs={12} md={6}>

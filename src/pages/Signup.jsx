@@ -53,9 +53,13 @@ const Signup = () => {
   return (
     <Container maxWidth="xs">
       <Box sx={{ mt: 1, textAlign: "center" }}>
-        <Typography variant="h6" fontWeight="bold" fontSize="20px">
-          Sign Up
-        </Typography>
+      <Typography
+  variant="h4" // Change to a bigger size
+  align="center"
+  sx={{ fontWeight: "bold", fontSize: "35px", mt: 10 }}
+>
+signup to unicart!
+</Typography>
 
         <TextField fullWidth label="Name" margin="normal" sx={{ mt: 2 }} onChange={(e) => setName(e.target.value)} />
         <TextField fullWidth label="Email" margin="normal" sx={{ mt: 2 }} onChange={(e) => setEmail(e.target.value)} />

@@ -33,9 +33,14 @@ const Login = () => {
     <Container maxWidth="xs">
       <Box sx={{ mt: 1 }}>
         {/* Smaller Login Text */}
-        <Typography variant="h6" align="center" sx={{ fontWeight: "bold", fontSize: "20px" }}>
-          Login
-        </Typography>
+        <Typography
+  variant="h4" // Change to a bigger size
+  align="center"
+  sx={{ fontWeight: "bold", fontSize: "35px", mt: 10 }}
+>
+  login to unicart!
+</Typography>
+
 
         <TextField fullWidth label="Email" margin="normal" onChange={(e) => setEmail(e.target.value)} />
         <TextField fullWidth label="Password" type="password" margin="normal" onChange={(e) => setPassword(e.target.value)} />

@@ -39,7 +39,7 @@ const Navbar = () => {
         <Typography variant="body2"> LIMITED-TIME OFFERS! GRAB THE DEALS NOW!</Typography>
       </Box>
 
-      <AppBar position="static" sx={{ backgroundColor: "#fff", padding: "8px 16px", boxShadow: "none" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#eff2f6;", padding: "8px 16px", boxShadow: "none" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           {/* Left Side: Logo + Shop Button */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
