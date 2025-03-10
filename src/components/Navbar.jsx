@@ -35,8 +35,8 @@ const Navbar = () => {
   return (
     <>
       {/* Promotional Banner */}
-      <Box sx={{ backgroundColor: "#000", color: "#fff", textAlign: "center", py: 1 }}>
-        <Typography variant="body2">🔥 Limited-time offers! Grab the best deals now! 🔥</Typography>
+      <Box sx={{ backgroundColor: "black", color: "white", textAlign: "center", py: 2 }}>
+        <Typography variant="body2"> LIMITED-TIME OFFERS! GRAB THE DEALS NOW!</Typography>
       </Box>
 
       <AppBar position="static" sx={{ backgroundColor: "#fff", padding: "8px 16px", boxShadow: "none" }}>
@@ -128,7 +128,7 @@ const Navbar = () => {
           </Box>
         </Toolbar>
         {/* More Visible Line Break at the Bottom of Navbar */}
-        <Divider sx={{ width: "100vw", borderBottomWidth: 1, backgroundColor: "#000" }} />
+     <Divider sx={{ width: "100vw", borderBottomWidth: 1, backgroundColor: "#000" }} />
       </AppBar>
     </>
   );

@@ -7,6 +7,7 @@ import Shop from "./pages/Shop";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import Footer from "./components/Footer";
 
 const theme = createTheme();
 
@@ -25,6 +26,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
             </Routes>
+            <Footer /> {/* Footer is now globally included */}
           </Box>
         </Box>
       </Router>
