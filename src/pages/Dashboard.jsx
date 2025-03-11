@@ -4,7 +4,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const images = [
-  "https://via.placeholder.com/1920x800", 
+  "https://via.placeholder.com/1920x800",
   "https://via.placeholder.com/1920x800",
   "https://via.placeholder.com/1920x800"
 ];
@@ -36,33 +36,32 @@ const Dashboard = () => {
     <Box>
       {/* Hero Section */}
       <Box
-  sx={{
-    position: "relative",
-    width: "100vw",
-    height: "100vh",
-    backgroundImage: `url(${images[currentImage]})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    overflow: "hidden",
-    m: 0,  // Ensure no margin
-    p: 0,  // Ensure no padding
-    "&::after": {
-      content: "''",
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      background: "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.1), rgba(0,0,0,0.7))",
-      zIndex: 1,
-    },
-  }}
->
-
+        sx={{
+          position: "relative",
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: `url(${images[currentImage]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          overflow: "hidden",
+          m: 0,
+          p: 0,
+          "&::after": {
+            content: "''",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.1), rgba(0,0,0,0.7))",
+            zIndex: 1,
+          },
+        }}
+      >
         <Box sx={{ position: "relative", zIndex: 2, color: "white", px: 3 }}>
           <Typography variant="h3" sx={{ fontWeight: "bold", mb: 2 }}>
             Welcome to UniCart
@@ -156,4 +155,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-  
