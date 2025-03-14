@@ -83,10 +83,10 @@ const Navbar = () => {
               <>
                 <Avatar
                   sx={{ cursor: "pointer", marginLeft: "16px", bgcolor: "#ff9800", color: "#fff" }}
-                  onClick={handleAvatarClick}
-                >
-                  {user.displayName ? user.displayName.charAt(0).toUpperCase() : "U"}
-                </Avatar>
+                  onClick={handleAvatarClick}src={user.photoURL}
+                  >
+                    {user.photoURL ? "" : (user.displayName ? user.displayName.charAt(0).toUpperCase() : "U")}
+                  </Avatar>
                 
                 <Menu
                   anchorEl={anchorEl}
