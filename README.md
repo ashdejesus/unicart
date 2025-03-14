@@ -1,12 +1,30 @@
-# React + Vite
+# 🛒 UniCart - E-commerce Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+UniCart is a modern e-commerce web application that allows users to browse and purchase products seamlessly. It includes an **admin dashboard** for managing products, users, and orders.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### User Features:
+- 🛍️ **Product Browsing** - Explore a variety of products.
+- 🔍 **Search & Filter** - Quickly find desired items.
+- 🛒 **Shopping Cart** - Add/remove products and proceed to checkout.
+- 🔐 **Authentication** - Secure login and registration with Firebase.
+- 📦 **Order Tracking** - View purchase history and order status.
 
-## Expanding the ESLint configuration
+### Admin Features:
+- ➕ **Add Products** - Admins can add new products.
+- ✏️ **Edit & Delete Products** - Modify or remove product listings.
+- 👥 **Manage Users** - View and control user access.
+- 📊 **Order Management** - Track and update order statuses.
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🏗️ Tech Stack
+
+### Frontend:
+- ⚛️ **React.js** - Modern UI framework.
+- 🎨 **Material UI (MUI)** - Responsive design.
+- 🌐 **React Router** - Smooth navigation.
+
+### Backend:
+- 🔥 **Firebase Authentication** - Secure user login.
+- 📄 **Firestore Database** - Store product and user data.
+- 🖼️ **Supabase Storage** - Manage product images.
