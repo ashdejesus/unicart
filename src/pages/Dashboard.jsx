@@ -4,21 +4,21 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const images = [
-  "https://via.placeholder.com/1920x800",
-  "https://via.placeholder.com/1920x800",
+  "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917623516_AS+M+NSW+TEE+M90+SOLE+FOOD+HBR.png",
+  "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917757697_AS+M+NK+TEE+WILDCARD+SP25.png",
   "https://via.placeholder.com/1920x800"
 ];
 
 const categories = [
-  { name: "Street Wear", image: "https://via.placeholder.com/500/CCCCCC/808080?text=Placeholder" },
-  { name: "Men’s Wear", image: "https://via.placeholder.com/500/CCCCCC/808080?text=Placeholder" },
-  { name: "Women’s Wear", image: "https://via.placeholder.com/500/CCCCCC/808080?text=Placeholder" },
+  { name: "Street Wear", image: "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917757697_AS+M+NK+TEE+WILDCARD+SP25.png" },
+  { name: "Men’s Wear", image: "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917623516_AS+M+NSW+TEE+M90+SOLE+FOOD+HBR.png" },
+  { name: "Women’s Wear", image: "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917623516_AS+M+NSW+TEE+M90+SOLE+FOOD+HBR.png" },
 ];
 
 const products = [
-  { name: "Shirt", price: "$99", image: "https://via.placeholder.com/300" },
-  { name: "Short", price: "$99", image: "https://via.placeholder.com/300" },
-  { name: "Jacket", price: "$99", image: "https://via.placeholder.com/300" }
+  { name: "Shirt", price: "$99", image: "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917757697_AS+M+NK+TEE+WILDCARD+SP25.png" },
+  { name: "Short", price: "$99", image: "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917623516_AS+M+NSW+TEE+M90+SOLE+FOOD+HBR.png" },
+  { name: "Jacket", price: "$99", image: "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917623516_AS+M+NSW+TEE+M90+SOLE+FOOD+HBR.png" }
 ];
 
 const Dashboard = () => {
