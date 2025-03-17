@@ -75,6 +75,28 @@ const Navbar = () => {
             >
               shop
             </Button>
+
+            <Button
+              sx={{
+                color: "#000",
+                "&:hover": { backgroundColor: "#E5E4E4" },
+                "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "transparent" },
+              }}
+              onClick={() => navigate("/newarrival")}
+            >
+              new arrival
+            </Button>
+
+            <Button
+              sx={{
+                color: "#000",
+                "&:hover": { backgroundColor: "#E5E4E4" },
+                "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "transparent" },
+              }}
+              onClick={() => navigate("/sale")}
+            >
+              sale
+            </Button>
           </Box>
 
           {/* Search Bar */}
