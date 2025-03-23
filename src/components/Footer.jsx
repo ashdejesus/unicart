@@ -4,11 +4,12 @@ import { Box, Typography, Grid, TextField, Button, Divider } from "@mui/material
 const Footer = () => {
   return (
     <>
-      {/* Divider */}
-      <Divider sx={{ my: 5, backgroundColor: "#ddd" }} />
+     
 
       {/* Footer */}
       <Box sx={{ width: "100vw", backgroundColor: "#eff2f6", py: 10, px: 3 }}>
+         {/* Divider */}
+      <Divider sx={{ my: 5 }} />
         <Grid container spacing={4} alignItems="center">
           {/* Left Side: Newsletter Signup Form */}
           <Grid item xs={12} md={6}>

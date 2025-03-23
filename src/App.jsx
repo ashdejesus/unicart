@@ -8,7 +8,9 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Footer from "./components/Footer";
 import AdminPanel from "./pages/AdminPanel";
+import ProductPage from "./pages/ProductPage"; // Import ProductPage
 import { auth, onAuthStateChanged, checkAdmin } from "./firebase";
+import Chatbot from "./components/Chatbot";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -44,6 +46,7 @@ function App() {
           <Box sx={{ flexGrow: 1, width: "100%", padding: 0, margin: 0 }}>
             <Routes>
               <Route path="/shop" element={<Shop />} />
+              <Route path="/product/:id" element={<ProductPage />} /> {/* Added ProductPage route */}
               <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
               <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/dashboard" />} />
               <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
@@ -54,6 +57,7 @@ function App() {
           <Footer />
         </Box>
       </Router>
+      <Chatbot />
     </>
   );
 }
