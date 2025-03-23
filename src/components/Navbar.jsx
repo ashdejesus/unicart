@@ -21,6 +21,7 @@ import { auth, db } from "../firebase"; // Ensure Firestore (db) is imported
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { FaCartShopping } from "react-icons/fa6";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -67,6 +68,16 @@ const Navbar = () => {
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
   };
+
+
+  
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCartSidebar = () => {
+    setIsCartOpen((prev) => !prev);
+  };
+
+
 
   return (
     <>
@@ -168,6 +179,89 @@ const Navbar = () => {
               </IconButton>
             </Box>
 
+
+
+
+
+          <Button
+              sx={{
+              fontSize: "25px",
+              marginLeft: "16px",
+              color: "black",
+              "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
+              "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
+            }}  
+                onClick={toggleCartSidebar} // Added onClick event to open sidebar
+              >
+                <FaCartShopping />
+              </Button>
+
+
+
+
+
+              {/* Cart Sidebar */}
+            <Modal open={isCartOpen} onClose={toggleCartSidebar} closeAfterTransition>
+              <Fade in={isCartOpen}>
+                <Box
+                  sx={{
+                    position: "fixed",
+                    top: 0,
+                    right: 0,
+                    width: "350px",
+                    height: "100vh",
+                    bgcolor: "white",
+                    boxShadow: "-5px 0px 10px rgba(0, 0, 0, 0.2)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    zIndex: 1400,
+                  }}
+                >
+                
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "16px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                      Shopping Cart
+                    </Typography>
+                    <IconButton onClick={toggleCartSidebar}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
+    
+                  <Box sx={{ flex: 1, padding: "16px", overflowY: "auto" }}>
+                    <Typography variant="body1" sx={{ textAlign: "center", color: "#666" }}>
+                      Your cart is empty.
+                    </Typography>
+                  </Box>
+              
+                  <Box sx={{ padding: "16px", borderTop: "1px solid #ddd" }}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#000",
+                        color: "white",
+                        "&:hover": { backgroundColor: "#333" },
+                      }}
+                      onClick={() => navigate("/cart")}
+                    >
+                    Checkout
+                    </Button>
+                  </Box>
+                </Box>
+              </Fade>
+            </Modal>
+
+
+
             {user ? (
               <>
                <Avatar
@@ -183,6 +277,7 @@ const Navbar = () => {
                   >
                     {user.photoURL ? "" : user.displayName ? user.displayName.charAt(0).toUpperCase() : "U"}
                   </Avatar>
+
 
                 <Menu
                   anchorEl={anchorEl}
@@ -214,11 +309,16 @@ const Navbar = () => {
                 Login
               </Button>
             )}
+
+          
           </Box>
         </Toolbar>
         {/* More Visible Line Break at the Bottom of Navbar */}
         <Divider sx={{ width: "100%", borderBottomWidth: 1, backgroundColor: "#000" }} />
       </AppBar>
+
+
+
 
      {/* Mobile Menu Modal */}
 <Modal open={isModalOpen} onClose={toggleModal} closeAfterTransition>
