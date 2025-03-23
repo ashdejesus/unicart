@@ -11,6 +11,8 @@ import AdminPanel from "./pages/AdminPanel";
 import ProductPage from "./pages/ProductPage"; // Import ProductPage
 import { auth, onAuthStateChanged, checkAdmin } from "./firebase";
 import Chatbot from "./components/Chatbot";
+import ScrollToTop from "./components/ScrollToTop"; // Adjust the path as needed
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,16 +36,47 @@ function App() {
   }, []);
 
   if (loading) {
-    return <Box sx={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>Loading...</Box>;
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          width: "100vw", // Ensure it spans the full width of the viewport
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#eff2f6", // Match the background color
+        }}
+      >
+        Loading...
+      </Box>
+    );
   }
-
+  
   return (
     <>
       <CssBaseline />
       <Router>
+        <ScrollToTop /> {/* Add this component */}
         <Navbar />
-        <Box sx={{ display: "flex", flexDirection: "column", height: "100vh", width: "100vw", overflowX: "hidden" }}>
-          <Box sx={{ flexGrow: 1, width: "100%", padding: 0, margin: 0 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100vh",
+            width: "100vw", // Ensure it spans the full width of the viewport
+            overflowX: "hidden",
+            backgroundColor: "#eff2f6", // Match the background color
+          }}
+        >
+          <Box
+            sx={{
+              flexGrow: 1,
+              width: "100%",
+              padding: 0,
+              margin: 0,
+              backgroundColor: "#eff2f6", // Match the background color
+            }}
+          >
             <Routes>
               <Route path="/shop" element={<Shop />} />
               <Route path="/product/:id" element={<ProductPage />} /> {/* Added ProductPage route */}

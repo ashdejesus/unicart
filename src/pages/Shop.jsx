@@ -5,7 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { 
   Container, Grid, Card, CardContent, Typography, 
   CardMedia, FormGroup, FormControlLabel, Checkbox, 
-  Select, MenuItem, Box 
+  Select, MenuItem, Box, Button 
 } from "@mui/material";
 
 const Shop = () => {
@@ -20,6 +20,7 @@ const Shop = () => {
     "Utility Jackets": false,
   });
   const [sortBy, setSortBy] = useState("popular");
+  const [filterOpen, setFilterOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,32 +80,127 @@ const Shop = () => {
         </Typography>
 
         <Grid container spacing={3}>
-  <Grid item xs={12} md={3}>
-    <Typography variant="h6" sx={{ fontWeight: 600 }}>Filters</Typography>
-    <Typography 
-      variant="body2" 
-      sx={{ color: "gray", cursor: "pointer", mb: 2 }} 
-      onClick={() => {
-        const resetFilters = Object.keys(filters).reduce((acc, key) => {
-          acc[key] = false;
-          return acc;
-        }, {});
-        setFilters(resetFilters);
-        applyFiltersAndSort(resetFilters, sortBy);
+  {/* Filter Section */}
+  <Grid
+    item
+    xs={12} // Full width on mobile
+    sm={3} // Sidebar on tablets and larger screens
+    sx={{
+      display: "block", // Always display the filter section
+    }}
+  >
+    {/* Responsive Design for Mobile */}
+    <Box
+      sx={{
+        display: { xs: "block", sm: "none" }, // Collapsible for mobile
+        mb: 2,
       }}
     >
-      Clear filters
-    </Typography>
+      <Button
+  variant="outlined"
+  fullWidth
+  onClick={() => setFilterOpen((prev) => !prev)}
+  sx={{
+    textTransform: "none",
+    mb: 2,
+    color: "#000", // Inherit text color
+    borderColor: "#c0c1c0", // Inherit border color
+    "&:hover": {
+      borderColor: "#E5E4E4", // Match hover border color
+      backgroundColor: "#E5E4E4", // Match hover background color
+    },
+    "&:focus, &:active": {
+      outline: "none",
+      boxShadow: "none", // Remove focus ring
+      borderColor: "#c0c1c0", // Keep border color unchanged
+    },
+  }}
+>
+  {filterOpen ? "Hide Filters" : "Show Filters"}
+</Button>
+      {filterOpen && (
+        <Box
+          sx={{
+            backgroundColor: "#eff2f6",
+            p: 2,
+            borderRadius: "8px",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+            Filters
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ color: "gray", cursor: "pointer", mb: 2 }}
+            onClick={() => {
+              const resetFilters = Object.keys(filters).reduce((acc, key) => {
+                acc[key] = false;
+                return acc;
+              }, {});
+              setFilters(resetFilters);
+              applyFiltersAndSort(resetFilters, sortBy);
+            }}
+          >
+            Clear filters
+          </Typography>
+          <FormGroup>
+            {Object.keys(filters).map((key) => (
+              <FormControlLabel
+                key={key}
+                control={
+                  <Checkbox
+                    checked={filters[key]}
+                    onChange={handleFilterChange}
+                    name={key}
+                  />
+                }
+                label={key.charAt(0).toUpperCase() + key.slice(1)}
+              />
+            ))}
+          </FormGroup>
+        </Box>
+      )}
+    </Box>
 
-    <FormGroup>
-      {Object.keys(filters).map((key) => (
-        <FormControlLabel 
-          key={key}
-          control={<Checkbox checked={filters[key]} onChange={handleFilterChange} name={key} />} 
-          label={key.charAt(0).toUpperCase() + key.slice(1)} 
-        />
-      ))}
-    </FormGroup>
+    {/* Sidebar for Tablets and Larger Screens */}
+    <Box
+      sx={{
+        display: { xs: "none", sm: "block" }, // Sidebar for larger screens
+      }}
+    >
+      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+        Filters
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{ color: "gray", cursor: "pointer", mb: 2 }}
+        onClick={() => {
+          const resetFilters = Object.keys(filters).reduce((acc, key) => {
+            acc[key] = false;
+            return acc;
+          }, {});
+          setFilters(resetFilters);
+          applyFiltersAndSort(resetFilters, sortBy);
+        }}
+      >
+        Clear filters
+      </Typography>
+      <FormGroup>
+        {Object.keys(filters).map((key) => (
+          <FormControlLabel
+            key={key}
+            control={
+              <Checkbox
+                checked={filters[key]}
+                onChange={handleFilterChange}
+                name={key}
+              />
+            }
+            label={key.charAt(0).toUpperCase() + key.slice(1)}
+          />
+        ))}
+      </FormGroup>
+    </Box>
   </Grid>
 
   <Grid item xs={12} md={9}>

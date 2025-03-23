@@ -151,10 +151,28 @@ const AdminPanel = () => {
   }
 
   return (
-    <Container sx={{ backgroundColor: "#eff2f6", minHeight: "100vh", py: 4 }}>
-      <Typography variant="h4" sx={{ my: 4 }}>Admin Panel</Typography>
-      <Paper sx={{ p: 4, mb: 4 }}>
-        <Typography variant="h6" sx={{ mb: 2 }}>Add New Product</Typography>
+    <Container
+      sx={{
+        backgroundColor: "#eff2f6", // Set the full background color
+        minHeight: "100vh",
+        py: 4,
+        px: { xs: 2, md: 4 }, // Add padding for smaller screens
+      }}
+    >
+      <Typography variant="h4" sx={{ my: 4 }}>
+        Admin Panel
+      </Typography>
+      <Paper
+        sx={{
+          p: 4,
+          mb: 4,
+          backgroundColor: "#eff2f6", // Match the background color
+          boxShadow: "none", // Remove shadow for a flat design
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Add New Product
+        </Typography>
         <Box component="form" noValidate autoComplete="off">
           <TextField
             label="Name"
@@ -182,10 +200,7 @@ const AdminPanel = () => {
           />
           <FormControl fullWidth sx={{ mb: 2 }}>
             <InputLabel>Category</InputLabel>
-            <Select
-              value={newProduct.category}
-              onChange={handleCategoryChange}
-            >
+            <Select value={newProduct.category} onChange={handleCategoryChange}>
               {categories.map((category) => (
                 <MenuItem key={category} value={category}>
                   {category}
@@ -194,36 +209,81 @@ const AdminPanel = () => {
             </Select>
           </FormControl>
 
-         {/* Image Upload Field */}
-<input
-  type="file"
-  accept="image/*"
-  onChange={(e) => setNewProduct({ ...newProduct, image: e.target.files[0] })}
-/>
+          {/* Image Upload Field */}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, image: e.target.files[0] })
+            }
+            style={{
+              marginBottom: "16px",
+              display: "block",
+            }}
+          />
 
-<Button variant="contained" color="primary" onClick={handleAddProduct}>
-  Add Product
-</Button>
-</Box>
-</Paper>
+          <Button variant="contained" color="primary" onClick={handleAddProduct}>
+            Add Product
+          </Button>
+        </Box>
+      </Paper>
 
-<Grid container spacing={2}>
+      <Grid
+  container
+  spacing={3}
+  sx={{
+    backgroundColor: "#eff2f6", // Match the full background color
+    borderRadius: "8px",
+    p: 2,
+  }}
+>
   {products.map((product) => (
-    <Grid item xs={12} sm={6} md={4} key={product.id}>
-      <Paper sx={{ p: 2 }}>
-        <Typography variant="h6">{product.name}</Typography>
-        <Typography variant="body1">Price: {product.price}</Typography>
-        <Typography variant="body2">Category: {product.category}</Typography>
-
-        {/* Fix Image Display - Only Show if URL Exists */}
+    <Grid item xs={6} sm={6} md={4} key={product.id}> {/* Two columns on mobile */}
+      <Paper
+        sx={{
+          p: 2,
+          backgroundColor: "#fff", // Keep product cards white for contrast
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+          transition: "transform 0.2s, box-shadow 0.2s",
+          "&:hover": {
+            transform: "scale(1.02)",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+          },
+        }}
+      >
+        {/* Product Image */}
         {product.image && (
-          <img src={product.image} alt={product.name} width="100%" />
+          <Box
+            component="img"
+            src={product.image}
+            alt={product.name}
+            sx={{
+              width: "100%",
+              height: "200px",
+              objectFit: "cover",
+              borderRadius: "8px",
+              mb: 2,
+            }}
+          />
         )}
 
+        {/* Product Details */}
+        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+          {product.name}
+        </Typography>
+        <Typography variant="body1" sx={{ color: "gray", mb: 1 }}>
+          Price: ${product.price}
+        </Typography>
+        <Typography variant="body2" sx={{ color: "gray", mb: 2 }}>
+          Category: {product.category}
+        </Typography>
+
+        {/* Action Buttons */}
         <Button
           variant="contained"
-          color="secondary"
-          sx={{ mt: 2 }}
+          color="primary"
+          sx={{ mr: 1 }}
           onClick={() => handleUpdateProduct(product.id, { name: "Updated Name" })}
         >
           Update
@@ -231,7 +291,6 @@ const AdminPanel = () => {
         <Button
           variant="contained"
           color="error"
-          sx={{ mt: 2 }}
           onClick={() => handleDeleteProduct(product.id)}
         >
           Delete
@@ -240,7 +299,7 @@ const AdminPanel = () => {
     </Grid>
   ))}
 </Grid>
-</Container>
+    </Container>
   );
 };
 
