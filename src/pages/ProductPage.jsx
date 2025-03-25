@@ -4,8 +4,8 @@ import { Box, CardMedia, Typography, Button, IconButton, Grid } from "@mui/mater
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, collection, setDoc, getDoc } from "firebase/firestore";
+import { db, auth } from "../firebase"; // Import Firestore instance
 
 const ProductPage = () => {
   const { id } = useParams(); // Get the product ID from the URL
@@ -14,18 +14,76 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
 
+  const handleAddToCart = async (product) => {
+    console.log("🛒 Adding product to cart:", product);
+  
+    if (!product || !product.id || !product.name || !product.price) {
+      console.error("❌ Invalid product data:", product);
+      return;
+    }
+  
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("❌ User not authenticated");
+        return;
+      }
+  
+      if (!selectedSize) {
+        console.error("❌ Please select a size before adding to cart.");
+        return;
+      }
+  
+      // Firestore structure: "users/{userId}/carts/{cartItemId-size}"
+      const cartRef = collection(db, "users", user.uid, "carts");
+      const itemRef = doc(cartRef, `${product.id}-${selectedSize}`); // Unique ID includes product ID and size
+  
+      const itemSnap = await getDoc(itemRef);
+  
+      if (itemSnap.exists()) {
+        // If item with the same size already exists, update quantity
+        await setDoc(
+          itemRef,
+          {
+            quantity: itemSnap.data().quantity + quantity,
+          },
+          { merge: true }
+        );
+        console.log("🔄 Product quantity updated in cart!");
+      } else {
+        // Otherwise, add new item with the selected size
+        await setDoc(itemRef, {
+          productId: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: quantity, // Use selected quantity
+          size: selectedSize, // Save selected size
+          image: product.image || "", // Ensure image is stored
+          addedAt: new Date(),
+        });
+        console.log("✅ Product added to cart!");
+      }
+    } catch (error) {
+      console.error("❌ Error adding to cart:", error);
+    }
+  };
   useEffect(() => {
     const fetchProduct = async () => {
-      const docRef = doc(db, "products", id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setProduct(docSnap.data());
-      } else {
-        console.error("No such product!");
+      try {
+        const docRef = doc(db, "products", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setProduct({ id: docSnap.id, ...docSnap.data() }); // ✅ Ensure `id` is included
+        } else {
+          console.error("❌ No such product!");
+        }
+      } catch (error) {
+        console.error("❌ Error fetching product:", error);
       }
     };
     fetchProduct();
   }, [id]);
+  
 
   if (!product) {
     return (
@@ -52,17 +110,29 @@ const ProductPage = () => {
           {/* Left Section - Product Images */}
           <Grid item xs={12} md={6}>
             <Grid container spacing={1}>
-              {[1, 2, 3, 4].map((_, index) => (
-                <Grid item xs={6} key={index}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={product.image || "https://via.placeholder.com/200"}
-                    alt={product.name}
-                    sx={{ borderRadius: 1, bgcolor: "#e0e0e0" }}
-                  />
-                </Grid>
-              ))}
+              {product.images && product.images.length > 0
+                ? product.images.map((imageUrl, index) => (
+                    <Grid item xs={6} key={index}>
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={imageUrl}
+                        alt={product.name}
+                        sx={{ borderRadius: 1, bgcolor: "#e0e0e0" }}
+                      />
+                    </Grid>
+                  ))
+                : [1, 2, 3, 4].map((_, index) => (
+                    <Grid item xs={6} key={index}>
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={product.image || "https://via.placeholder.com/200"}
+                        alt={product.name}
+                        sx={{ borderRadius: 1, bgcolor: "#e0e0e0" }}
+                      />
+                    </Grid>
+                  ))}
             </Grid>
           </Grid>
 
@@ -118,6 +188,7 @@ const ProductPage = () => {
             <Button
               variant="contained"
               fullWidth
+              onClick={() => handleAddToCart(product)}
               sx={{
                 mt: 3,
                 bgcolor: "black",

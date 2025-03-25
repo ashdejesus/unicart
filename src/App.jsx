@@ -12,6 +12,7 @@ import ProductPage from "./pages/ProductPage"; // Import ProductPage
 import { auth, onAuthStateChanged, checkAdmin } from "./firebase";
 import Chatbot from "./components/Chatbot";
 import ScrollToTop from "./components/ScrollToTop"; // Adjust the path as needed
+import Cart from "./pages/Cart"; // Import Cart
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
           >
             <Routes>
               <Route path="/shop" element={<Shop />} />
+              <Route path="/cart" element={<Cart />} /> {/* Added Cart route */}
               <Route path="/product/:id" element={<ProductPage />} /> {/* Added ProductPage route */}
               <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
               <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/dashboard" />} />

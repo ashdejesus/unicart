@@ -21,7 +21,9 @@ import { auth, db } from "../firebase"; // Ensure Firestore (db) is imported
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { FaCartShopping } from "react-icons/fa6";
+import LocalMallTwoToneIcon from "@mui/icons-material/LocalMallTwoTone";
+import MenuOpenTwoToneIcon from "@mui/icons-material/MenuOpenTwoTone";
+import { collection, getDocs, setDoc, deleteDoc } from "firebase/firestore"; // Import Firestore methods
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false); // State to track admin role
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]); // State to store cart items
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -69,15 +73,83 @@ const Navbar = () => {
     setIsModalOpen((prev) => !prev);
   };
 
-
   
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const toggleCartSidebar = () => {
-    setIsCartOpen((prev) => !prev);
+  const updateCartItemQuantity = async (itemId, newQuantity) => {
+    if (newQuantity < 1) return; // Prevent quantity from going below 1
+  
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("❌ User not authenticated");
+        return;
+      }
+  
+      const cartRef = collection(db, "users", user.uid, "carts");
+      const itemRef = doc(cartRef, itemId);
+  
+      await setDoc(
+        itemRef,
+        { quantity: newQuantity },
+        { merge: true } // Merge to update only the quantity field
+      );
+  
+      // Update the cartItems state to reflect the new quantity
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === itemId ? { ...item, quantity: newQuantity } : item
+        )
+      );
+  
+      console.log("✅ Cart item quantity updated!");
+    } catch (error) {
+      console.error("❌ Error updating cart item quantity:", error);
+    }
   };
 
-
+  const removeCartItem = async (itemId) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("❌ User not authenticated");
+        return;
+      }
+  
+      const cartRef = collection(db, "users", user.uid, "carts");
+      const itemRef = doc(cartRef, itemId);
+  
+      // Delete the item from Firestore
+      await deleteDoc(itemRef);
+  
+      // Update the cartItems state to remove the item
+      setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  
+      console.log("✅ Cart item removed!");
+    } catch (error) {
+      console.error("❌ Error removing cart item:", error);
+    }
+  };
+  const toggleCartSidebar = async () => {
+    setIsCartOpen((prev) => !prev);
+  
+    if (!isCartOpen && user) {
+      try {
+        // Fetch cart items from Firestore: "users/{userId}/carts"
+        const cartRef = collection(db, "users", user.uid, "carts");
+        const querySnapshot = await getDocs(cartRef);
+  
+        const items = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+  
+        setCartItems(items);
+        console.log("🛒 Cart items fetched:", items);
+      } catch (error) {
+        console.error("❌ Error fetching cart items:", error);
+      }
+    }
+  };
 
   return (
     <>
@@ -174,91 +246,205 @@ const Navbar = () => {
             </Box>
 
             <Box sx={{ display: { xs: "flex", sm: "none" } }}>
-              <IconButton onClick={toggleModal}>
-                <MenuIcon sx={{ color: "#000" }} />
-              </IconButton>
+            <IconButton onClick={toggleModal}>
+  <MenuOpenTwoToneIcon sx={{ color: "#000" }} />
+</IconButton>
             </Box>
 
 
 
 
-
-          <Button
-              sx={{
-              fontSize: "25px",
-              marginLeft: "16px",
-              color: "black",
-              "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
-              "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
-            }}  
-                onClick={toggleCartSidebar} // Added onClick event to open sidebar
-              >
-                <FaCartShopping />
-              </Button>
+            <Button
+  sx={{
+    fontSize: "25px",
+    marginLeft: "16px",
+    color: "black",
+    "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
+    "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
+  }}
+  onClick={toggleCartSidebar} // Added onClick event to open sidebar
+>
+  <LocalMallTwoToneIcon />
+</Button>
 
 
 
 
 
               {/* Cart Sidebar */}
-            <Modal open={isCartOpen} onClose={toggleCartSidebar} closeAfterTransition>
-              <Fade in={isCartOpen}>
-                <Box
-                  sx={{
-                    position: "fixed",
-                    top: 0,
-                    right: 0,
-                    width: "350px",
-                    height: "100vh",
-                    bgcolor: "white",
-                    boxShadow: "-5px 0px 10px rgba(0, 0, 0, 0.2)",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    zIndex: 1400,
-                  }}
-                >
-                
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "16px",
-                      borderBottom: "1px solid #ddd",
-                    }}
-                  >
-                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                      Shopping Cart
-                    </Typography>
-                    <IconButton onClick={toggleCartSidebar}>
-                      <CloseIcon />
-                    </IconButton>
-                  </Box>
-    
-                  <Box sx={{ flex: 1, padding: "16px", overflowY: "auto" }}>
-                    <Typography variant="body1" sx={{ textAlign: "center", color: "#666" }}>
-                      Your cart is empty.
-                    </Typography>
-                  </Box>
-              
-                  <Box sx={{ padding: "16px", borderTop: "1px solid #ddd" }}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#000",
-                        color: "white",
-                        "&:hover": { backgroundColor: "#333" },
-                      }}
-                      onClick={() => navigate("/cart")}
-                    >
-                    Checkout
-                    </Button>
-                  </Box>
-                </Box>
-              </Fade>
-            </Modal>
+<Modal open={isCartOpen} onClose={toggleCartSidebar} closeAfterTransition>
+  <Fade in={isCartOpen}>
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        width: "400px", // Increased width for better layout
+        height: "100vh",
+        bgcolor: "white",
+        boxShadow: "-5px 0px 10px rgba(0, 0, 0, 0.2)",
+        display: "flex",
+        flexDirection: "column",
+        zIndex: 1400,
+      }}
+    >
+      {/* Header */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "16px",
+          borderBottom: "1px solid #ddd",
+          backgroundColor: "#f8f8f8",
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          Shopping Cart
+        </Typography>
+        <IconButton onClick={toggleCartSidebar}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+
+     {/* Cart Items */}
+<Box sx={{ flex: 1, padding: "16px", overflowY: "auto" }}>
+  {cartItems.length > 0 ? (
+    cartItems.map((item) => (
+      <Box
+        key={item.id}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "16px",
+          paddingBottom: "16px",
+          borderBottom: "1px solid #eee",
+        }}
+      >
+        {/* Product Image */}
+        <Box
+          component="img"
+          src={item.image || "https://via.placeholder.com/50"}
+          alt={item.name}
+          sx={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "8px",
+            objectFit: "cover",
+            marginRight: "16px",
+          }}
+        />
+        {/* Product Details */}
+        <Box sx={{ flex: 1 }}>
+          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+            {item.name}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#666" }}>
+            Size: {item.size}
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, marginTop: "8px" }}>
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{
+                minWidth: "30px",
+                padding: "4px",
+                borderColor: "#ddd",
+                color: "#333",
+                "&:hover": { borderColor: "#333" },
+              }}
+              onClick={() => updateCartItemQuantity(item.id, item.quantity - 1)}
+              disabled={item.quantity <= 1} // Disable if quantity is 1
+            >
+              -
+            </Button>
+            <Typography variant="body2" sx={{ fontWeight: "bold", color: "#333" }}>
+              {item.quantity}
+            </Typography>
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{
+                minWidth: "30px",
+                padding: "4px",
+                borderColor: "#ddd",
+                color: "#333",
+                "&:hover": { borderColor: "#333" },
+              }}
+              onClick={() => updateCartItemQuantity(item.id, item.quantity + 1)}
+            >
+              +
+            </Button>
+          </Box>
+        </Box>
+        {/* Price and Remove Button */}
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+          <Typography variant="body2" sx={{ fontWeight: "bold", color: "#333", marginBottom: "8px" }}>
+            ${item.price * item.quantity}
+          </Typography>
+          <Button
+            variant="text"
+            size="small"
+            sx={{
+              color: "red",
+              "&:hover": { textDecoration: "underline" },
+            }}
+            onClick={() => removeCartItem(item.id)}
+          >
+            Remove
+          </Button>
+        </Box>
+      </Box>
+    ))
+  ) : (
+    <Typography variant="body1" sx={{ textAlign: "center", color: "#666" }}>
+      Your cart is empty.
+    </Typography>
+  )}
+</Box>
+
+      {/* Subtotal Section */}
+      {cartItems.length > 0 && (
+        <Box
+          sx={{
+            padding: "16px",
+            borderTop: "1px solid #ddd",
+            backgroundColor: "#f8f8f8",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "16px",
+            }}
+          >
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              Subtotal:
+            </Typography>
+            <Typography variant="body1" sx={{ fontWeight: "bold", color: "#333" }}>
+              ${cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+            </Typography>
+          </Box>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              backgroundColor: "#000",
+              color: "white",
+              "&:hover": { backgroundColor: "#333" },
+            }}
+            onClick={() => navigate("/cart")}
+          >
+            Go to Cart
+          </Button>
+        </Box>
+      )}
+    </Box>
+  </Fade>
+</Modal>
 
 
 
