@@ -3,9 +3,11 @@ import { Box, Typography, Button, TextField, Divider, IconButton } from "@mui/ma
 import DeleteIcon from "@mui/icons-material/Delete";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db, auth } from "../firebase"; // Import Firebase instance
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate(); // Initialize navigate
 
   // Fetch cart items from Firebase
   useEffect(() => {
@@ -113,7 +115,12 @@ const Cart = () => {
             Total: $
             {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
           </Typography>
-          <Button fullWidth variant="contained" sx={{ bgcolor: "black", color: "white", mt: 2 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{ bgcolor: "black", color: "white", mt: 2 }}
+            onClick={() => navigate("/checkout")} // Navigate to the checkout page
+          >
             Continue to checkout
           </Button>
         </Box>

@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { CssBaseline, Box } from "@mui/material";
 import Navbar from "./components/Navbar";
-import Shop from "./pages/Shop"; 
+import Footer from "./components/Footer";
+import Chatbot from "./components/Chatbot";
+import ScrollToTop from "./components/ScrollToTop";
+
+import Shop from "./pages/Shop";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import Footer from "./components/Footer";
 import AdminPanel from "./pages/AdminPanel";
-import ProductPage from "./pages/ProductPage"; // Import ProductPage
-import { auth, onAuthStateChanged, checkAdmin } from "./firebase";
-import Chatbot from "./components/Chatbot";
-import ScrollToTop from "./components/ScrollToTop"; // Adjust the path as needed
-import Cart from "./pages/Cart"; // Import Cart
+import ProductPage from "./pages/ProductPage";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Shipping from "./pages/Shipping";
 
+import { auth, onAuthStateChanged, checkAdmin } from "./firebase";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -30,10 +38,10 @@ function App() {
         setUser(null);
         setIsAdmin(false);
       }
-      setLoading(false); // Stop loading when authentication is checked
+      setLoading(false);
     });
 
-    return () => unsubscribe(); // Cleanup on unmount
+    return () => unsubscribe();
   }, []);
 
   if (loading) {
@@ -41,51 +49,57 @@ function App() {
       <Box
         sx={{
           height: "100vh",
-          width: "100vw", // Ensure it spans the full width of the viewport
+          width: "100vw",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#eff2f6", // Match the background color
+          backgroundColor: "#eff2f6",
         }}
       >
         Loading...
       </Box>
     );
   }
-  
+
   return (
     <>
       <CssBaseline />
       <Router>
-        <ScrollToTop /> {/* Add this component */}
+        <ScrollToTop />
         <Navbar />
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            height: "100vh",
-            width: "100vw", // Ensure it spans the full width of the viewport
-            overflowX: "hidden",
-            backgroundColor: "#eff2f6", // Match the background color
+            minHeight: "100vh",
+            backgroundColor: "#eff2f6",
           }}
         >
-          <Box
-            sx={{
-              flexGrow: 1,
-              width: "100%",
-              padding: 0,
-              margin: 0,
-              backgroundColor: "#eff2f6", // Match the background color
-            }}
-          >
+          <Box sx={{ flexGrow: 1 }}>
             <Routes>
               <Route path="/shop" element={<Shop />} />
-              <Route path="/cart" element={<Cart />} /> {/* Added Cart route */}
-              <Route path="/product/:id" element={<ProductPage />} /> {/* Added ProductPage route */}
-              <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
-              <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/dashboard" />} />
-              <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-              <Route path="/admin" element={user && isAdmin ? <AdminPanel /> : <Navigate to="/login" />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route
+                path="/login"
+                element={!user ? <Login /> : <Navigate to="/dashboard" />}
+              />
+              <Route
+                path="/signup"
+                element={!user ? <Signup /> : <Navigate to="/dashboard" />}
+              />
+              <Route
+                path="/dashboard"
+                element={user ? <Dashboard /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/admin"
+                element={
+                  user && isAdmin ? <AdminPanel /> : <Navigate to="/login" />
+                }
+              />
               <Route path="*" element={<Navigate to="/shop" />} />
             </Routes>
           </Box>
