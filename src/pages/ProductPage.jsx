@@ -139,7 +139,7 @@ const ProductPage = () => {
           {/* Right Section - Product Details */}
           <Grid item xs={12} md={6}>
             <Typography variant="h4" sx={{ fontWeight: 700 }}>{product.name}</Typography>
-            <Typography variant="h6" sx={{ fontWeight: 500, mt: 1 }}>${product.price}</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 500, mt: 1 }}>₱{product.price}</Typography>
             <Typography variant="body1" sx={{ color: "gray", mt: 1 }}>
               {product.description}
             </Typography>
@@ -198,7 +198,7 @@ const ProductPage = () => {
                 "&:hover": { bgcolor: "black" },
               }}
             >
-              Add to Cart - ${product.price * quantity}
+              Add to Cart - ₱{product.price * quantity}
             </Button>
 
             {/* Free Shipping & Returns */}

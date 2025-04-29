@@ -273,7 +273,7 @@ const AdminPanel = () => {
           {product.name}
         </Typography>
         <Typography variant="body1" sx={{ color: "gray", mb: 1 }}>
-          Price: ${product.price}
+          Price: ₱{product.price}
         </Typography>
         <Typography variant="body2" sx={{ color: "gray", mb: 2 }}>
           Category: {product.category}

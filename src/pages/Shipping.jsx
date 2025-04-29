@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Radio, RadioGroup, FormControlLabel, Button } from "@mui/material";
+import { Box, Typography, Radio, RadioGroup, FormControlLabel, Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db, auth } from "../firebase"; // Import Firebase instance
@@ -55,7 +55,6 @@ const Shipping = () => {
   }, []);
 
   const handleContinue = () => {
-    // Pass shipping option via global state or query param if needed
     navigate("/checkout/payment");
   };
 
@@ -113,43 +112,74 @@ const Shipping = () => {
           </Button>
         </Box>
 
-        {/* Cart summary */}
-        <Box sx={{ flex: 1, bgcolor: "#eff2f6", padding: 2, borderRadius: 2 }}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Your cart
+        {/* Cart Summary */}
+        <Box sx={{ flex: 1, bgcolor: "#eff2f6", padding: 3, borderRadius: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+            Order Summary
           </Typography>
+
           {cartItems.length > 0 ? (
             cartItems.map((item) => (
-              <Box key={item.id} sx={{ display: "flex", mb: 2 }}>
+              <Box
+                key={item.id}
+                sx={{
+                  display: "flex",
+                  borderBottom: "1px solid #ddd",
+                  paddingY: 2,
+                  alignItems: "center",
+                }}
+              >
                 <Box
                   component="img"
-                  src={item.image || "https://via.placeholder.com/60"}
+                  src={item.image || "https://via.placeholder.com/80"}
                   alt={item.name}
                   sx={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 1,
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "8px",
                     objectFit: "cover",
                     mr: 2,
                   }}
                 />
-                <Box>
-                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                    {item.name}
-                  </Typography>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="h6">{item.name}</Typography>
                   <Typography variant="body2">Size: {item.size}</Typography>
                   <Typography variant="body2">Quantity: {item.quantity}</Typography>
-                  <Typography variant="body1" sx={{ fontWeight: "bold", mt: 1 }}>
-                    ₱{item.price * item.quantity}
+                  <Typography variant="body2" sx={{ color: "#888" }}>
+                    by {item.vendor || "Unknown Vendor"}
+                  </Typography>
+                  <Typography variant="h6" sx={{ mt: 1 }}>
+                    ₱{(item.price * item.quantity).toFixed(2)}
                   </Typography>
                 </Box>
               </Box>
             ))
           ) : (
-            <Typography variant="body2" sx={{ color: "#888" }}>
+            <Typography
+              variant="body1"
+              sx={{ textAlign: "center", color: "#666", py: 3 }}
+            >
               Your cart is empty.
             </Typography>
           )}
+
+          <TextField
+            fullWidth
+            placeholder="Enter coupon code here"
+            variant="outlined"
+            size="small"
+            sx={{ mb: 2, mt: 2 }}
+          />
+
+          <Typography variant="body1">
+            Subtotal: ₱{cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
+          </Typography>
+          <Typography variant="body1">
+            Shipping: Calculated at the next step
+          </Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>
+            Total: ₱{cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
+          </Typography>
         </Box>
       </Box>
     </Box>

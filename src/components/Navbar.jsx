@@ -381,7 +381,7 @@ const Navbar = () => {
         {/* Price and Remove Button */}
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
           <Typography variant="body2" sx={{ fontWeight: "bold", color: "#333", marginBottom: "8px" }}>
-            ${item.price * item.quantity}
+          ₱{item.price * item.quantity}
           </Typography>
           <Button
             variant="text"
@@ -425,7 +425,7 @@ const Navbar = () => {
               Subtotal:
             </Typography>
             <Typography variant="body1" sx={{ fontWeight: "bold", color: "#333" }}>
-              ${cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+            ₱{cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
             </Typography>
           </Box>
           <Button

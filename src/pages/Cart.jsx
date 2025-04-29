@@ -86,7 +86,7 @@ const Cart = () => {
                   <Typography variant="body2">Size: {item.size}</Typography>
                   <Typography variant="body2">Quantity: {item.quantity}</Typography>
                   <Typography variant="body2">by {item.vendor || "Unknown Vendor"}</Typography>
-                  <Typography variant="h6" sx={{ mt: 1 }}>${item.price * item.quantity}</Typography>
+                  <Typography variant="h6" sx={{ mt: 1 }}>₱{item.price * item.quantity}</Typography>
                 </Box>
                 <IconButton onClick={() => removeCartItem(item.id)}>
                   <DeleteIcon />
@@ -107,12 +107,12 @@ const Cart = () => {
           </Typography>
           <TextField fullWidth placeholder="Enter coupon code here" variant="outlined" size="small" sx={{ mb: 2 }} />
           <Typography variant="body1">
-            Subtotal: $
+            Subtotal: ₱
             {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
           </Typography>
           <Typography variant="body1">Shipping: Calculated at the next step</Typography>
           <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>
-            Total: $
+            Total: ₱
             {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
           </Typography>
           <Button

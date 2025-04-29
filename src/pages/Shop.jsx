@@ -240,7 +240,7 @@ const Shop = () => {
   />
   <CardContent sx={{ flexGrow: 1 }}> {/* Ensures content stretches evenly */}
     <Typography variant="h6" sx={{ fontWeight: 600 }}>{product.name}</Typography>
-    <Typography variant="body2" color="textSecondary">${product.price}</Typography>
+    <Typography variant="body2" color="textSecondary">₱{product.price}</Typography>
   </CardContent>
 </Card>
         </Grid>
