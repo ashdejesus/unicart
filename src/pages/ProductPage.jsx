@@ -20,7 +20,8 @@ const ProductPage = () => {
   const [unit, setUnit] = useState("cm");
   const [tabIndex, setTabIndex] = useState(0);
 
-  const cmToInches = (cm) => (cm / 2.54).toFixed(1);
+  // Conversion function for cm to inches
+  const cmToInches = (cm) => (cm * 0.393701).toFixed(1);
 
   const handleAddToCart = async (product) => {
     if (!product || !product.id || !product.name || !product.price) return;
@@ -197,8 +198,8 @@ const ProductPage = () => {
               fullWidth
               sx={{
                 "& .MuiDialog-paper": {
-                  width: "90%", // Adjust this to control the dialog width
-                  maxWidth: "800px", // Set the maximum width of the dialog
+                  width: "90%",
+                  maxWidth: "800px",
                 },
               }}
             >
@@ -218,7 +219,10 @@ const ProductPage = () => {
                       backgroundColor: unit === option ? "black" : "transparent",
                       color: unit === option ? "white" : "black",
                       borderColor: "black",
-                      "&:hover": { backgroundColor: "black", color: "white" },
+                      "&:hover": { 
+                        backgroundColor: "#767676", 
+                        color: "white" 
+                      },
                     }}
                   >
                     {option}
@@ -227,24 +231,24 @@ const ProductPage = () => {
               </Box>
 
               <DialogContent>
-              <Tabs
-  value={tabIndex}
-  onChange={handleTabChange}
-  TabIndicatorProps={{ style: { backgroundColor: "black" } }}
-  sx={{
-    "& .MuiTab-root": {
-      color: "#767676",
-      fontWeight: "bold",
-      textTransform: "none",
-    },
-    "& .MuiTab-root.Mui-selected": {
-      color: "black",
-    },
-  }}
->
-  <Tab label="Product Measurements" />
-  <Tab label="Body Measurements" />
-</Tabs>
+                <Tabs
+                  value={tabIndex}
+                  onChange={handleTabChange}
+                  TabIndicatorProps={{ style: { backgroundColor: "black" } }}
+                  sx={{
+                    "& .MuiTab-root": {
+                      color: "#767676",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                    },
+                    "& .MuiTab-root.Mui-selected": {
+                      color: "black",
+                    },
+                  }}
+                >
+                  <Tab label="PRODUCT MEASUREMENTS" />
+                  <Tab label="BODY MEASUREMENTS" />
+                </Tabs>
 
                 {tabIndex === 0 && (
                   <>
@@ -258,18 +262,14 @@ const ProductPage = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {[
-                            { size: "S", shoulder: 44.5, length: 69, sleeve: 64.8, bust: 108, cuff: "24-31" },
-                            { size: "M", shoulder: 46, length: 71, sleeve: 66, bust: 112, cuff: "25-32" },
-                            { size: "L", shoulder: 47.8, length: 73, sleeve: 67.2, bust: 117, cuff: "26.2-33.2" },
-                          ].map((row) => (
+                          {[{ size: "S", shoulder: 44.5, length: 69, sleeve: 64.8, bust: 108, cuff: "24-31" }, { size: "M", shoulder: 46, length: 71, sleeve: 66, bust: 112, cuff: "25-32" }, { size: "L", shoulder: 47.8, length: 73, sleeve: 67.2, bust: 117, cuff: "26.2-33.2" }].map((row) => (
                             <TableRow key={row.size}>
                               <TableCell sx={{ backgroundColor: "#f6f7f7", fontWeight: "bold" }}>{row.size}</TableCell>
                               <TableCell>{unit === "cm" ? `${row.shoulder} cm` : `${cmToInches(row.shoulder)} in`}</TableCell>
                               <TableCell>{unit === "cm" ? `${row.length} cm` : `${cmToInches(row.length)} in`}</TableCell>
                               <TableCell>{unit === "cm" ? `${row.sleeve} cm` : `${cmToInches(row.sleeve)} in`}</TableCell>
                               <TableCell>{unit === "cm" ? `${row.bust} cm` : `${cmToInches(row.bust)} in`}</TableCell>
-                              <TableCell>{row.cuff} cm</TableCell>
+                              <TableCell>{row.cuff}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -293,11 +293,7 @@ const ProductPage = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {[
-                            { size: "S", height: "160-165", bust: "84-88", waist: "66-70", hip: "90-94" },
-                            { size: "M", height: "165-170", bust: "88-92", waist: "70-74", hip: "94-98" },
-                            { size: "L", height: "170-175", bust: "92-96", waist: "74-78", hip: "98-102" },
-                          ].map((row) => (
+                          {[{ size: "S", height: "170-175", bust: "92-96", waist: "76-80", hip: "92-96" }, { size: "M", height: "175-180", bust: "96-100", waist: "80-84", hip: "96-100" }, { size: "L", height: "180-185", bust: "100-105", waist: "84-89", hip: "100-105" }].map((row) => (
                             <TableRow key={row.size}>
                               <TableCell sx={{ backgroundColor: "#f6f7f7", fontWeight: "bold" }}>{row.size}</TableCell>
                               <TableCell>
@@ -329,17 +325,19 @@ const ProductPage = () => {
               </DialogContent>
 
               <DialogActions>
-  <Button
-    onClick={() => setOpenSizeGuide(false)}
-    color="primary"
-    sx={{
-      color: "black", // Changes the text color of the button to black
-    }}
-  >
-    Close
-  </Button>
-</DialogActions>
-
+                <Button
+                  onClick={() => setOpenSizeGuide(false)}
+                  color="primary"
+                  sx={{
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#e5e4e4",
+                    },
+                  }}
+                >
+                  Close
+                </Button>
+              </DialogActions>
             </Dialog>
           </Grid>
         </Grid>
