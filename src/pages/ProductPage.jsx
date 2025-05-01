@@ -227,18 +227,24 @@ const ProductPage = () => {
               </Box>
 
               <DialogContent>
-                <Tabs
-                  value={tabIndex}
-                  onChange={handleTabChange}
-                  TabIndicatorProps={{ style: { backgroundColor: "black" } }}
-                  sx={{
-                    "& .MuiTab-root": { color: "#767676", fontWeight: "bold" },
-                    "& .Mui-selected": { color: "black" },
-                  }}
-                >
-                  <Tab label="Product Measurements" />
-                  <Tab label="Body Measurements" />
-                </Tabs>
+              <Tabs
+  value={tabIndex}
+  onChange={handleTabChange}
+  TabIndicatorProps={{ style: { backgroundColor: "black" } }}
+  sx={{
+    "& .MuiTab-root": {
+      color: "#767676",
+      fontWeight: "bold",
+      textTransform: "none",
+    },
+    "& .MuiTab-root.Mui-selected": {
+      color: "black",
+    },
+  }}
+>
+  <Tab label="Product Measurements" />
+  <Tab label="Body Measurements" />
+</Tabs>
 
                 {tabIndex === 0 && (
                   <>
