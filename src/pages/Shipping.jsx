@@ -23,9 +23,9 @@ const shippingOptions = [
 ];
 
 const Shipping = () => {
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("jnt");
   const [cartItems, setCartItems] = useState([]); // State to store cart items
-  const navigate = useNavigate();
 
   // Fetch cart items from Firebase
   useEffect(() => {
@@ -54,9 +54,6 @@ const Shipping = () => {
     fetchCartItems();
   }, []);
 
-  const handleContinue = () => {
-    navigate("/checkout/payment");
-  };
 
   return (
     <Box sx={{ maxWidth: "1200px", margin: "auto", padding: "20px" }}>
@@ -106,7 +103,7 @@ const Shipping = () => {
             fullWidth
             variant="contained"
             sx={{ bgcolor: "black", color: "white", mt: 2 }}
-            onClick={handleContinue}
+            onClick={() => navigate("/payment")} // Navigate to the payment page
           >
             Continue to payment
           </Button>

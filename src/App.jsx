@@ -20,6 +20,9 @@ import ProductPage from "./pages/ProductPage";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Shipping from "./pages/Shipping";
+import Payment from "./pages/Payment";
+import OrderConfirmation from "./pages/OrderConfirmation";
+import MyOrders from "./pages/MyOrders";
 
 import { auth, onAuthStateChanged, checkAdmin } from "./firebase";
 
@@ -82,6 +85,11 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/confirmation" element={<OrderConfirmation />} />
+              <Route path="/orders" element={<MyOrders />} />
+
+
               <Route
                 path="/login"
                 element={!user ? <Login /> : <Navigate to="/dashboard" />}

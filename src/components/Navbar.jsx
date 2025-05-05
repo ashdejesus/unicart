@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import LocalMallTwoToneIcon from "@mui/icons-material/LocalMallTwoTone";
 import MenuOpenTwoToneIcon from "@mui/icons-material/MenuOpenTwoTone";
 import { collection, getDocs, setDoc, deleteDoc } from "firebase/firestore"; // Import Firestore methods
+import ReceiptLongTwoToneIcon from "@mui/icons-material/ReceiptLongTwoTone"; // Import an icon for "My Orders"
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -253,19 +254,30 @@ const Navbar = () => {
 
 
 
-
-            <Button
-  sx={{
-    fontSize: "25px",
-    marginLeft: "16px",
-    color: "black",
-    "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
-    "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
-  }}
-  onClick={toggleCartSidebar} // Added onClick event to open sidebar
->
-  <LocalMallTwoToneIcon />
-</Button>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
+  <Button
+    sx={{
+      fontSize: "25px",
+      color: "black",
+      "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
+      "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
+    }}
+    onClick={() => navigate("/orders")} // Navigate to MyOrders page
+  >
+    <ReceiptLongTwoToneIcon />
+  </Button>
+  <Button
+    sx={{
+      fontSize: "25px",
+      color: "black",
+      "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
+      "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
+    }}
+    onClick={toggleCartSidebar} // Added onClick event to open sidebar
+  >
+    <LocalMallTwoToneIcon />
+  </Button>
+</Box>
 
 
 
@@ -305,6 +317,7 @@ const Navbar = () => {
         <IconButton onClick={toggleCartSidebar}>
           <CloseIcon />
         </IconButton>
+        
       </Box>
 
      {/* Cart Items */}
@@ -429,17 +442,21 @@ const Navbar = () => {
             </Typography>
           </Box>
           <Button
-            fullWidth
-            variant="contained"
-            sx={{
-              backgroundColor: "#000",
-              color: "white",
-              "&:hover": { backgroundColor: "#333" },
-            }}
-            onClick={() => navigate("/cart")}
-          >
-            Go to Cart
-          </Button>
+  fullWidth
+  variant="contained"
+  sx={{
+    backgroundColor: "#000",
+    color: "white",
+    "&:hover": { backgroundColor: "#333" },
+  }}
+  onClick={() => {
+    navigate("/cart"); // Navigate to the cart page
+    toggleCartSidebar(); // Close the modal
+  }}
+>
+  Go to Cart
+</Button>
+
         </Box>
       )}
     </Box>
