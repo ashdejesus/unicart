@@ -255,17 +255,18 @@ const Navbar = () => {
 
 
             <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
-  <Button
-    sx={{
-      fontSize: "25px",
-      color: "black",
-      "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
-      "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
-    }}
-    onClick={() => navigate("/orders")} // Navigate to MyOrders page
-  >
-    <ReceiptLongTwoToneIcon />
-  </Button>
+            <Button
+  sx={{
+    fontSize: "25px",
+    color: "black",
+    display: { xs: "none", md: "flex" }, // Hide on small screens, show on medium and larger screens
+    "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
+    "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
+  }}
+  onClick={() => navigate("/orders")} // Navigate to MyOrders page
+>
+  <ReceiptLongTwoToneIcon />
+</Button>
   <Button
     sx={{
       fontSize: "25px",
@@ -596,6 +597,21 @@ const Navbar = () => {
         }}
       >
         Sale
+      </Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          marginBottom: "16px",
+          cursor: "pointer",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+        }}
+        onClick={() => {
+          navigate("/orders");
+          toggleModal();
+        }}
+      >
+        My Orders
       </Typography>
 
 {/* Add Product Link (Visible for Admins) */}
