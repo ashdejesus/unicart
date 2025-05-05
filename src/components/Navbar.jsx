@@ -205,9 +205,9 @@ const Navbar = () => {
       "&:hover": { backgroundColor: "#E5E4E4" },
       "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "transparent" },
     }}
-    onClick={() => navigate("/sale")}
+    onClick={() => navigate("/orders")}
   >
-    sale
+    my orders
   </Button>
 </Box>
           </Box>
@@ -255,18 +255,7 @@ const Navbar = () => {
 
 
             <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Button
-  sx={{
-    fontSize: "25px",
-    color: "black",
-    display: { xs: "none", md: "flex" }, // Hide on small screens, show on medium and larger screens
-    "&:hover": { borderColor: "#E5E4E4", backgroundColor: "#E5E4E4" },
-    "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "#c0c1c0" },
-  }}
-  onClick={() => navigate("/orders")} // Navigate to MyOrders page
->
-  <ReceiptLongTwoToneIcon />
-</Button>
+         
   <Button
     sx={{
       fontSize: "25px",
