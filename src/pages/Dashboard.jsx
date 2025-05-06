@@ -4,9 +4,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const images = [
-  "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917623516_AS+M+NSW+TEE+M90+SOLE+FOOD+HBR.png",
-  "https://gsjvtxigubypbbwodumm.supabase.co/storage/v1/object/public/product-images//1741917757697_AS+M+NK+TEE+WILDCARD+SP25.png",
-  "https://via.placeholder.com/1920x800"
+  "/images/wp1.jpg"
 ];
 
 const categories = [
