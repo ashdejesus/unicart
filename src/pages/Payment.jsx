@@ -83,26 +83,27 @@ const Payment = () => {
     if (paymentMethod !== "cod" && !validateForm()) {
       return;
     }
-
+  
     setLoading(true); // Set loading to true when starting payment process
-
+  
     try {
       const user = auth.currentUser;
       if (!user) {
         console.error("❌ User not authenticated");
         return;
       }
-
+  
       const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
       const shippingFee = shippingInfo ? (shippingFees[shippingInfo.shippingMethodId] || 0) : 0;
       const totalAmount = subtotal + shippingFee;
-
-      // Get the existing order ID or use a new one
-      const orderRef = doc(db, "users", user.uid, "orders", "order-1"); // Replace 'order-1' with your dynamic order ID logic
-
-      // Fetch the existing order document
+  
+      // Use a predefined or existing order ID
+      const orderId = "order-1"; // Or get the order ID from the user's document if it's already created
+  
+      const orderRef = doc(db, "users", user.uid, "orders", orderId); // Use the fixed order ID
+  
+      // Fetch the existing order if it exists
       const orderDoc = await getDoc(orderRef);
-
       const orderData = {
         shippingInfo,
         cartItems,
@@ -127,7 +128,7 @@ const Payment = () => {
         paymentDate: serverTimestamp(),
         createdAt: serverTimestamp(),
       };
-
+  
       if (orderDoc.exists()) {
         // If order exists, update it with new payment details
         await setDoc(orderRef, orderData, { merge: true });
@@ -137,11 +138,11 @@ const Payment = () => {
         await setDoc(orderRef, orderData);
         console.log("✅ Order created in Firestore");
       }
-
+  
       // If using COD, you can skip the payment processing part
       if (paymentMethod !== "cod") {
         // Simulate successful payment (In a real case, you'd integrate with a payment gateway like PayPal)
-        const paymentRef = doc(db, "users", user.uid, "orders", "order-1");
+        const paymentRef = doc(db, "users", user.uid, "orders", orderId);
         await setDoc(paymentRef, {
           ...orderData,
           paymentStatus: "paid", // Update payment status to 'paid' after successful transaction
@@ -149,7 +150,7 @@ const Payment = () => {
         }, { merge: true });
         console.log("✅ Payment processed successfully");
       }
-
+  
       // Navigate to confirmation page after successful order
       navigate("/confirmation");
     } catch (error) {
@@ -158,6 +159,8 @@ const Payment = () => {
       setLoading(false); // Reset loading state after the process is complete
     }
   };
+  
+
 
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shippingFee = shippingInfo ? (shippingFees[shippingInfo.shippingMethodId] || 0) : 0;
@@ -186,8 +189,15 @@ const Payment = () => {
               <TextField fullWidth label="Cardholder Name" name="name" value={form.name} onChange={handleInputChange} error={!!errors.name} helperText={errors.name} sx={{ mb: 2 }} />
               <TextField fullWidth label="Card Number" name="cardNumber" value={form.cardNumber} onChange={handleInputChange} error={!!errors.cardNumber} helperText={errors.cardNumber} sx={{ mb: 2 }} />
               <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-                <TextField select label="Month" name="expiryMonth" value={form.expiryMonth} onChange={handleInputChange} error={!!errors.expiryMonth} helperText={errors.expiryMonth} sx={{ flex: 1 }} />
-                <TextField select label="Year" name="expiryYear" value={form.expiryYear} onChange={handleInputChange} error={!!errors.expiryYear} helperText={errors.expiryYear} sx={{ flex: 1 }} />
+                <TextField select label="Month" name="expiryMonth" value={form.expiryMonth} onChange={handleInputChange} error={!!errors.expiryMonth} helperText={errors.expiryMonth} sx={{ flex: 1 }}>
+                  {[...Array(12)].map((_, i) => <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>)}
+                </TextField>
+                <TextField select label="Year" name="expiryYear" value={form.expiryYear} onChange={handleInputChange} error={!!errors.expiryYear} helperText={errors.expiryYear} sx={{ flex: 1 }}>
+                  {[...Array(10)].map((_, i) => {
+                    const year = new Date().getFullYear() + i;
+                    return <MenuItem key={year} value={year}>{year}</MenuItem>;
+                  })}
+                </TextField>
                 <TextField label="CVC" name="cvc" value={form.cvc} onChange={handleInputChange} error={!!errors.cvc} helperText={errors.cvc} sx={{ flex: 1 }} />
               </Box>
             </Box>
@@ -195,7 +205,7 @@ const Payment = () => {
 
           <Button fullWidth variant="contained" sx={{ bgcolor: "black", mt: 2 }} onClick={handlePayment} disabled={loading}>
             {loading ? "Processing..." : (paymentMethod === "paypal" ? "Pay with PayPal" :
-               paymentMethod === "card" ? "Pay with Card" : "Place Order (COD)") }
+               paymentMethod === "card" ? "Pay with Card" : "Place Order (COD)")}
           </Button>
         </Box>
 
@@ -209,16 +219,17 @@ const Payment = () => {
                 <Typography variant="body2">Size: {item.size}</Typography>
                 <Typography variant="body2">Qty: {item.quantity}</Typography>
                 <Typography variant="subtitle2" sx={{ mt: 1 }}>₱{item.price * item.quantity}</Typography>
-              </ Box>
-</Box>
-))}
-      <Typography variant="body1" sx={{ mt: 2 }}>Subtotal: ₱{total.toFixed(2)}</Typography>
-      <Typography variant="body1">Shipping: ₱{shippingFee.toFixed(2)}</Typography>
-      <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>Total: ₱{totalAmount.toFixed(2)}</Typography>
+              </Box>
+            </Box>
+          ))}
+
+          <Typography variant="body1" sx={{ mt: 2 }}>Subtotal: ₱{total.toFixed(2)}</Typography>
+          <Typography variant="body1">Shipping: ₱{shippingFee.toFixed(2)}</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>Total: ₱{totalAmount.toFixed(2)}</Typography>
+        </Box>
+      </Box>
     </Box>
-  </Box>
-</Box>
-);
+  );
 };
 
 export default Payment;
