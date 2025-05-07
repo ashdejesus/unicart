@@ -188,16 +188,6 @@ const Navbar = () => {
     shop
   </Button>
 
-  <Button
-    sx={{
-      color: "#000",
-      "&:hover": { backgroundColor: "#E5E4E4" },
-      "&:focus, &:active": { outline: "none", boxShadow: "none", borderColor: "transparent" },
-    }}
-    onClick={() => navigate("/newarrival")}
-  >
-    new arrival
-  </Button>
 
   <Button
     sx={{
@@ -556,36 +546,6 @@ const Navbar = () => {
         }}
       >
         Shop
-      </Typography>
-      <Typography
-        variant="h6"
-        sx={{
-          marginBottom: "16px",
-          cursor: "pointer",
-          fontWeight: "bold",
-          textTransform: "uppercase",
-        }}
-        onClick={() => {
-          navigate("/newarrival");
-          toggleModal();
-        }}
-      >
-        New Arrival
-      </Typography>
-      <Typography
-        variant="h6"
-        sx={{
-          marginBottom: "16px",
-          cursor: "pointer",
-          fontWeight: "bold",
-          textTransform: "uppercase",
-        }}
-        onClick={() => {
-          navigate("/sale");
-          toggleModal();
-        }}
-      >
-        Sale
       </Typography>
       <Typography
         variant="h6"

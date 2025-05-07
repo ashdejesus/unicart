@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Radio, RadioGroup, FormControlLabel, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Button,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { db, auth } from "../firebase"; // Import Firebase instance
 
 const shippingOptions = [
@@ -25,15 +34,18 @@ const shippingOptions = [
 const Shipping = () => {
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("jnt");
-  const [cartItems, setCartItems] = useState([]); // State to store cart items
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state for fetching cart items
 
   // Fetch cart items from Firebase
   useEffect(() => {
     const fetchCartItems = async () => {
+      setLoading(true); // Show loading spinner while fetching data
       try {
         const user = auth.currentUser;
         if (!user) {
           console.error("❌ User not authenticated");
+          navigate("/login"); // Redirect to login if the user is not authenticated
           return;
         }
 
@@ -48,17 +60,75 @@ const Shipping = () => {
         setCartItems(items);
       } catch (error) {
         console.error("❌ Error fetching cart items:", error);
+      } finally {
+        setLoading(false); // Hide loading spinner after fetching data
       }
     };
 
     fetchCartItems();
-  }, []);
+  }, [navigate]);
 
-
+  const handleContinueToPayment = async () => {
+    if (!cartItems.length) {
+      alert("Your cart is empty! Please add items before proceeding.");
+      return;
+    }
+  
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("❌ User not authenticated");
+        navigate("/login");
+        return;
+      }
+  
+      // Fetch the most recent order (assuming orderId = timestamp-based)
+      const ordersCollectionRef = collection(db, "users", user.uid, "orders");
+      const ordersSnapshot = await getDocs(ordersCollectionRef);
+  
+      if (ordersSnapshot.empty) {
+        alert("No order found! Please start checkout first.");
+        return;
+      }
+  
+      // Find the latest order by createdAt (timestamp)
+      const orders = ordersSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  
+      const latestOrder = orders.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis())[0];
+  
+      if (!latestOrder) {
+        alert("No order found! Please start checkout first.");
+        return;
+      }
+  
+      const latestOrderRef = doc(db, "users", user.uid, "orders", latestOrder.id);
+  
+      // Update the latest order with selected shipping option
+      await setDoc(
+        latestOrderRef,
+        {
+          shippingMethod: {
+            id: selectedOption,
+            name: shippingOptions.find(opt => opt.id === selectedOption)?.name || "",
+            duration: shippingOptions.find(opt => opt.id === selectedOption)?.duration || "",
+          },
+        },
+        { merge: true } // 👉 merge: true to only update shippingMethod field
+      );
+  
+      navigate("/payment"); // Move to the payment step
+    } catch (error) {
+      console.error("❌ Error updating shipping option in order:", error);
+    }
+  };
+  
   return (
     <Box sx={{ maxWidth: "1200px", margin: "auto", padding: "20px" }}>
       <Typography variant="h4" sx={{ fontWeight: "bold", mb: 4 }}>
-        checkout
+        Checkout
       </Typography>
 
       {/* Step indicator */}
@@ -99,14 +169,18 @@ const Shipping = () => {
             ))}
           </RadioGroup>
 
-          <Button
-            fullWidth
-            variant="contained"
-            sx={{ bgcolor: "black", color: "white", mt: 2 }}
-            onClick={() => navigate("/payment")} // Navigate to the payment page
-          >
-            Continue to payment
-          </Button>
+          {loading ? (
+            <CircularProgress sx={{ mt: 2 }} /> // Show loading spinner while processing
+          ) : (
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{ bgcolor: "black", color: "white", mt: 2 }}
+              onClick={handleContinueToPayment}
+            >
+              Continue to payment
+            </Button>
+          )}
         </Box>
 
         {/* Cart Summary */}
